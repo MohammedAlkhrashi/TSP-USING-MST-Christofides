@@ -1,5 +1,5 @@
 
-from operator import itemgetter
+
 class Graph:
 
 
@@ -7,7 +7,7 @@ class Graph:
         # self.adjMatrix = [[]]
         # self.V = {}
         self.graph = {"vertices":[],"edges":set([])}
-        self.parent={}
+        
 
     def addEdge(self,v,u,w):
         # self.V[v].append(u,w)
@@ -22,33 +22,6 @@ class Graph:
         self.graph["vertices"].append(v)
         
 
-    def union(self,v,u):
-        parentV = self.findParent(v)
-        parentU = self.findParent(u)
-        if parentV != parentU:
-            self.parent[parentU] = parentV ## No matter who will be the parent (Xd) , see findParent() and draw the graph to be clear
-        
-
-    def findParent(self,v):
-        if self.parent[v] != v :
-            return self.findParent(self.parent[v])
-        else:
-            return v
-
-    def KRUSKAL(self):
-        MST = set()
-        for v in self.graph["vertices"]:
-            self.parent[v] = v #MAKE - SET (v)
-        
-        edges =list(self.graph["edges"])
-        edges.sort(key=itemgetter(2)) ## by w - > (v,u,w) 
-        
-        for v,u,w in edges:
-            if self.findParent(v) != self.findParent(u):
-                MST.add((v,u,w))
-                self.union(v,u)
-
-        return MST
 
 
 g = Graph()

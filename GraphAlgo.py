@@ -1,10 +1,4 @@
 
-from operator import itemgetter
-
-def main():
-    
-
-
 def union(parent,v,u):
     parentV = findParent(v)
     parentU = findParent(u) ##
@@ -13,6 +7,7 @@ def union(parent,v,u):
     
 
 def findParent(parent,v):
+
     if parent[v] != v :
         return findParent(parent[v])
     else:
