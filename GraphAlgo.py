@@ -1,10 +1,12 @@
 from operator import itemgetter
 from Graph import Graph
+import Christofid
 
 
 def KRUSKAL(g):
     parent = {} 
     MST = Graph()
+    
     for key,value in g.vertices.items():
         MST.addVertex(key,value[0],value[1])
         parent[key] = key #MAKE - SET (v)
@@ -150,16 +152,16 @@ g.addVertex("E",5,5)
 g.addEdge("A","B",1)
 g.addEdge("A","C",1)
 g.addEdge("A","D",2)
-g.addEdge("A","E",1)
+g.addEdge("A","E",0)
 
 g.addEdge("C","D",1)
-g.addEdge("C","E",1)
+g.addEdge("C","E",0)
 g.addEdge("C","B",2)
 
 g.addEdge("B","D",1)
-g.addEdge("B","E",1)
+g.addEdge("B","E",0)
 
-g.addEdge("D","E",1)
+g.addEdge("D","E",0)
 
 # g.addEdge("A","D")
 # g.addEdge("D","E")
