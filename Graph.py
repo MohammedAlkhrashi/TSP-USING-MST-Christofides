@@ -1,4 +1,5 @@
 
+import math
 
 class Graph:
 
@@ -6,50 +7,59 @@ class Graph:
     def __init__(self):
         # self.adjMatrix = [[]]
         # self.V = {}
-        self.graph = {"vertices":[],"edges":set([])}
-        
+        # self.graph = {"vertices":{},"edges":set([]),"weights":{} }
+        self.vertices = {}
+        self.edges = set()
+        self.weights = {}
 
-    def addEdge(self,v,u,w):
-        # self.V[v].append(u,w)
-        # self.V[u].append(v,w)
-        # self.edges.append(V[v],V[u])
-        self.graph["edges"].add((v,u,w))
+    def addEdge(self,v,u,w=-1): 
+        vertixV = self.vertices[v]; 
+        vertixU = self.vertices[u]; 
+        if(w==-1):
+            weight = self.dist(vertixV,vertixU)
+            self.edges.add((v,u,weight))
+        else:
+            weight = w 
+            self.edges.add((v,u,w)) 
 
-    def addVertex(self,v):
-        # if v in self.V:
-            # return
-        # self.V[v] = [(None,None)]
-        self.graph["vertices"].append(v)
-        
+        self.weights[(u,v)] = weight; 
+        self.weights[(v,u)] = weight; 
+    
 
 
+    def addVertex(self,name,x,y): ## each vertex is defined by (name,x,y).
+ 
+        self.vertices[name] = (x,y) ## save each vertex by it's name as KEY, with value of x,y cooridnates. 
+        # self.vertices.append(name)
 
-g = Graph()
-g.addVertex("A")
-g.addVertex("B")
-g.addVertex("C")
-g.addVertex("D")
-g.addVertex("F")
+    def dist(self,v,u):
+        return math.sqrt( (v[0]-u[0])**2 + ( v[1]-u[1])**2 ) ## compute euclidean distance, because we have a metric graph. 
+    
+    def weight(self,v,u) :
+        return self.weights[ (v,u) ]
+       
 
-g.addEdge("D",'F',10) 
-g.addEdge("C",'B',1)
-g.addEdge("A",'B',3)  
-g.addEdge("C",'A',2)
-g.addEdge("B",'D',7)
-g.addEdge("C",'F',8)
-g.addEdge("D",'C',1)
-g.addEdge("D",'A',2)
 
-print(g.graph)
-print("------------------------------------------------------------------")
-print(g.KRUSKAL())
-# MST- KRUSKAL (G, w)
-#  1. A ← ∅
-#  2. for each vertex v ∈ V [G]
-#  3. do MAKE - SET (v)
-#  4. sort the edges of E into non decreasing order by weight w
-#  5. for each edge (u, v) ∈ E, taken in non decreasing order by weight
-#  6. do if FIND-SET (μ) ≠ if FIND-SET (v)
-#  7. then A  ←  A ∪ {(u, v)}
-#  8. UNION (u, v)
-#  9. return A
+    def printGraph(self):
+        print("vertices = ",self.vertices)
+        print("Edges = " , self.edges); 
+        print("--------------------------------------------------------------------------------")
+# g = Graph()
+# g.addVertex("A",2,2) 
+# g.addVertex("B",3,5) 
+# g.addVertex("C",5,8) 
+# g.addVertex("D",2,1) 
+# g.addVertex("F",11,5)
+
+# g.addEdge("D",'F') 
+# g.addEdge("C",'B')
+# g.addEdge("A",'B')  
+# g.addEdge("C",'A')
+# g.addEdge("B",'D')
+# g.addEdge("C",'F')
+# g.addEdge("D",'C')
+# g.addEdge("D",'A')
+
+# g.printGraph(); 
+
+# print("------------------------------------------------------------------")

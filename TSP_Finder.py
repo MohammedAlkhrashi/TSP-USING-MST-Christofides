@@ -1,41 +1,23 @@
-
-from operator import itemgetter
+import Graph
+import GraphAlgo
 
 def main():
+    g = Graph(); 
+    fillGraph(g)
+
+    solve(g)
+
+
+
+def solve(g):
+    gMST = GraphAlgo.KRUSKAL(g) ## Convert to MST using KRUSKAL
+    sol  = GraphAlgo.Christofides(gMST); 
     
 
 
-def union(parent,v,u):
-    parentV = findParent(v)
-    parentU = findParent(u) ##
-    if parentV != parentU:
-        parent[parentU] = parentV ## No matter who will be the parent (Xd) , see findParent() and draw the graph to be clear
-    
 
-def findParent(parent,v):
-    if parent[v] != v :
-        return findParent(parent[v])
-    else:
-        return v
-
-def KRUSKAL(graph):
-    parent = {} 
-    MST = set()
-    for v in graph["vertices"]:
-        parent[v] = v #MAKE - SET (v)
-    
-    edges =list(graph["edges"])
-    edges.sort(key=itemgetter(2)) ## by w - > (v,u,w) 
-    
-    for v,u,w in edges:
-        if findParent(v) != findParent(u):
-            MST.add((v,u,w))
-            union(v,u)
-
-    return MST
+def fillGraph():
+    pass
 
 
 
-    
-def if __name__ == "__main__":
-    main(); 
