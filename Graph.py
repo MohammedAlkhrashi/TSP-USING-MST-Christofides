@@ -24,8 +24,8 @@ class Graph:
 
         self.weights[(u,v)] = weight; 
         self.weights[(v,u)] = weight; 
-    
-
+        
+        
 
     def addVertex(self,name,x,y): ## each vertex is defined by (name,x,y).
  
@@ -44,6 +44,39 @@ class Graph:
         print("vertices = ",self.vertices)
         print("Edges = " , self.edges); 
         print("--------------------------------------------------------------------------------")
+
+    def toMatrix(self):    
+        gMatrix = {}
+        adj =[]
+        
+        
+
+        for v in self.vertices.keys():
+            gMatrix[v] = {}
+            for u in self.vertices.keys():
+                if((v,u) not in self.weights):
+                    gMatrix[v][u] = 0
+                else:
+                    gMatrix[v][u] = self.weights[(v,u)]
+
+    
+        edgesList = list(gMatrix.values())
+        
+        for i in edgesList:
+            adj.append(list(i.values()))
+        return adj , gMatrix; 
+
+        
+        
+
+
+
+
+      
+
+    def toGraph(self,adjMatrix):
+        pass
+
 # g = Graph()
 # g.addVertex("A",2,2) 
 # g.addVertex("B",3,5) 
@@ -61,5 +94,7 @@ class Graph:
 # g.addEdge("D",'A')
 
 # g.printGraph(); 
+
+# g.toMatrix(); 
 
 # print("------------------------------------------------------------------")

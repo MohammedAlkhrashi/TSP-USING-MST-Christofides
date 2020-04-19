@@ -1,7 +1,6 @@
 from operator import itemgetter
 from Graph import Graph
-import Christofid
-
+import tester
 
 def KRUSKAL(g):
     parent = {} 
@@ -177,15 +176,17 @@ g.addEdge("D","E",0)
 
 g.printGraph()
 
+
 MST = KRUSKAL(g)
-print
 MST.printGraph()
 print("------------------- Minimum weight --------------")
 MWPM = mimumWeightPerfectMatching(g,MST)
 MWPM.printGraph(); 
 print("------------------- Union --------------")
 uni = graphUnion(MWPM,MST)
-uni.printGraph(); 
+uni.printGraph();   
 
+gMatrix = g.toMatrix()[1]
+tester.minimum_weight_matching(MST.toMatrix[1],gMatrix,findOdds(MST));
 
     
