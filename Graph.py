@@ -21,8 +21,8 @@ class Graph:
             weight = w 
 
         if( (u,v,weight) in self.edges or (v,u,weight) in self.edges):
-            return
-        self.edges.add((v,u,weight))
+           return
+        self.edges.add((v,u,weight)) 
         self.weights[(u,v)] = weight; 
         self.weights[(v,u)] = weight; 
         
@@ -36,7 +36,7 @@ class Graph:
     def dist(self,v,u):
         res = math.sqrt( (v[0]-u[0])**2 + ( v[1]-u[1])**2 ) ## compute euclidean distance, because we have a metric graph. 
        
-        return res
+        return int(100*res)/100; 
     
     def weight(self,v,u) :
         return self.weights[ (v,u) ]
@@ -88,33 +88,3 @@ class Graph:
 
 
 
-# g = Graph()
-# g.addVertex("A",2,2) 
-# g.addVertex("B",3,5) 
-# g.addVertex("C",5,8) 
-# g.addVertex("D",2,1) 
-# g.addVertex("F",11,5)
-
-# g.addEdge("D",'F') 
-# g.addEdge("C",'B')
-# g.addEdge("A",'B')  
-# g.addEdge("C",'A')
-# g.addEdge("B",'D')
-# g.addEdge("C",'F')
-# g.addEdge("D",'C')
-# g.addEdge("D",'A')
-
-# g.printGraph(); 
-
-# g.toMatrix(); 
-
-# print("------------------------------------------------------------------")
-
-adjMatrix = [[0 ,5 ,8 ,4 ,5],
-            [5 ,0 ,7 ,4 ,5],
-            [8 ,7 ,0 ,8 ,6],
-            [4 ,4 ,8 ,0 ,8],
-            [5 ,5 ,6 ,8 ,0]]
-tempG = Graph()
-g = tempG.toGraph(adjMatrix)
-g.printGraph()

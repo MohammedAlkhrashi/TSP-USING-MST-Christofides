@@ -5,6 +5,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import json
 
+## finds the minimum spanning tree by KRUSKAL
 def KRUSKAL(g):
     parent = {} 
     MST = Graph()
@@ -22,13 +23,15 @@ def KRUSKAL(g):
             union(parent,v,u)
 
     return MST
+
+## makes the parent of v to u 
 def union(parent,v,u):
     parentV = findParent(parent,v)
     parentU = findParent(parent,u) ##
     if parentV != parentU:
-        parent[parentU] = parentV ## No matter who will be the parent (Xd) , see findParent() and draw the graph to be clear
+        parent[parentU] = parentV ## Does not matter who will be the parent 
     
-
+# finds the parent of v in the parent list
 def findParent(parent,v):
 
     if parent[v] != v :
@@ -36,28 +39,22 @@ def findParent(parent,v):
     else:
         return v
 
-
+# 
 def Christofides(g,root):
     MST = KRUSKAL(g);     
-    
-    print("MST:")
-    print(MST.printGraph())
 
     MWPM = mimumWeightPerfectMatching(g,MST); 
-
-    print("MWPM")
-    print(MWPM.printGraph())
+    
     multiGraph = graphUnion(MST,MWPM)
 
-    print("MultiGraph")
-    print(multiGraph.edges())
     eulerianCircut = formEulerCircut(multiGraph,root); 
-    print(eulerianCircut)
+ 
     hamlitonianCircut = formHamiltonianCircut(eulerianCircut)
-    print(hamlitonianCircut)
+ 
     TSP_Graph = finalTSPgraph(hamlitonianCircut,g.weights)
 
-    return TSP_Graph
+    return TSP_Graph[0], TSP_Graph[1] , hamlitonianCircut
+
 
 def finalTSPgraph(hPath, weights):
     
@@ -72,23 +69,23 @@ def finalTSPgraph(hPath, weights):
         TSP_graph.add_edge(hPath[i],hPath[i+1], weight = w)
 
     return TSP_graph,cost
-
+## every vertex of the graph is incident to exactly one edge of the matching
 def mimumWeightPerfectMatching(g,MST):
     odds = findOdds(MST)
     minWeightPM = Graph() ## minWeightPM : Mim Weight Perfect Matching
     minWeightPM.vertices = g.vertices
     minWeightPM.weights = g.weights
-    while len(odds) > 0 :
+    while len(odds) > 0: ## While not empty
         v = odds.pop()
-        minimum = float("inf")
-        for u in odds:
+        minimum = float("inf") ## Closest at first is infinity
+        for u in odds: ## Find closest Vertex to v
             if( (v,u) not in g.weights):
                 continue; 
-            if g.weight(v,u) < minimum:
+            if g.weight(v,u) < minimum: ## if closest
                 minimum = g.weight(v,u)
-                closest = u
+                closest = u ## set closest <- u
           
-        minWeightPM.addEdge(closest,v,minimum)
+        minWeightPM.addEdge(closest,v,minimum) ## add edge between it's closest neighbor
         odds.remove(closest)
   
         
@@ -97,7 +94,7 @@ def mimumWeightPerfectMatching(g,MST):
 
 
 
-
+#counts the degree of each vertex and returns the odd vertrices.
 def findOdds(g):
     oddVertices = []
     
@@ -118,17 +115,11 @@ def findOdds(g):
             oddVertices.append(v)
     return oddVertices
 
+# with help of networkx library, it unites matching and spanning tree to give us a multiGraph (allows multiple edges)
 def graphUnion(g1,g2):
-
     multiGraph = nx.MultiGraph();
-    
-    
-
-    # multiGraph = Graph()
-   
     vertices1 = g1.vertices
     vertices2 = g2.vertices
-    
 
     for v,u,w in g1.edges:
             multiGraph.add_edge(v,u,weight = w)
@@ -136,13 +127,9 @@ def graphUnion(g1,g2):
     for v,u,w in g2.edges:
             multiGraph.add_edge(v,u,weight = w)
     
-    # multiGraph.add_weighted_edges_from(g1.edges)
-    # multiGraph.add_weighted_edges_from(g2.edges)
-    # multiGraph.add_edge("B","D",weight = 11)
     return multiGraph
-
         
-        
+# path that visits every edge exactly once    
 def formEulerCircut(multiGraph,root):
 
     curVertex = root; 
@@ -152,19 +139,18 @@ def formEulerCircut(multiGraph,root):
         
         curNeighbors = list(multiGraph.neighbors(curVertex)) ## Takes first neighbor as nextVertex 
         if (len(curNeighbors) == 0): ## if curVertex has no neighbouurs 
-             path.append(curVertex)
-             curVertex = stack.pop()
+             path.append(curVertex) ## add it to the path
+             curVertex = stack.pop() ## Set last visited vertex as curVertex
              continue;
         nextVertex = curNeighbors[0]; ## take first neighbor as nextVertex 
-        multiGraph.remove_edge(curVertex,nextVertex)
-        stack.append(curVertex)
-        curVertex = nextVertex;
-    
+        multiGraph.remove_edge(curVertex,nextVertex) ## Remove the edge between them
+        stack.append(curVertex) 
+        curVertex = nextVertex; ## move to the neighbor after deleting the edge.
     return path; 
         
 
     
-
+# Removes repeated vertices
 def formHamiltonianCircut(euler_path):
 
     TSP_path = []
@@ -180,11 +166,11 @@ def formHamiltonianCircut(euler_path):
     return TSP_path
     
 
-    
+# helper....
 def readJson(inp):
     g = Graph()
     for v in inp["vl"]:
-        print(v)
+        
         g.addVertex(v,inp["vl"][v]["x"],inp["vl"][v]["y"])
 
     for v in  inp["vl"]:
@@ -192,97 +178,4 @@ def readJson(inp):
             if(u != v):
                 g.addEdge(v,u)
     return g;
-
-
-
-# g= Graph()
-
-# g.addVertex("A",1,1)
-# g.addVertex("B",2,2)
-# g.addVertex("C",3,3)
-# g.addVertex("D",4,4)
-# g.addVertex("E",5,5)
-# # g.addVertex("F",2,1)
-# # g.addVertex("G",7,3)
-
-# g.addEdge("A","B",1)
-# g.addEdge("A","C",1)
-# g.addEdge("A","D",2)
-# g.addEdge("A","E",0)
-
-# g.addEdge("C","D",1)
-# g.addEdge("C","E",0)
-# g.addEdge("C","B",2)
-
-# g.addEdge("B","D",1)
-# g.addEdge("B","E",0)
-
-# g.addEdge("D","E",0)
-
-# # g.addEdge("A","D")
-# # g.addEdge("D","E")
-# # g.addEdge("B","D")
-# # g.addEdge("A","B")
-# # g.addEdge("F","E")
-# # g.addEdge("F","G")
-# # g.addEdge("G","E")
-# # g.addEdge("C","B")
-# # g.addEdge("B","E")
-# # g.addEdge("C","E")
-# # g.addEdge("F","D")
-
-# g.printGraph()
-
-
-# MST = KRUSKAL(g)
-# MST.printGraph()
-# print("------------------- Minimum weight --------------")
-# MWPM = mimumWeightPerfectMatching(g,MST)
-# MWPM.printGraph(); 
-# print("------------------- Union --------------")
-# uni = graphUnion(MWPM,MST)
-
-# print([ (u,v,edata['weight']) for u,v,edata in uni.edges(data=True) if 'weight' in edata ])
-
-# # for u,v,edata in uni.edges(data =True):
-# #     print((u,v,edata))
-
-
-# eulerPath = formEulerCircut(uni,"E")
-# print("This is euler path" , eulerPath)
-
-# # uni.printGraph();   
-
-# # gMatrix = g.toMatrix()[1]
-# # tester.minimum_weight_matching(MST.toMatrix[1],gMatrix,findOdds(MST));
-
-
-# # nx.draw_circular(uni,with_labels = True); 
-# # plt.savefig("multi.png")
-
-# print("This is uni", uni.edges);
-
-# TSP_path = hamlitonianCircut(eulerPath)
-# print(TSP_path)
-
-# adjMatrix = [[0 ,5 ,8 ,4 ,5],
-#             [5 ,0 ,7 ,4 ,5],
-#             [8 ,7 ,0 ,8 ,6],
-#             [4 ,4 ,8 ,0 ,8],
-#             [5 ,5 ,6 ,8 ,0]]
-# g = toGraph(adjMatrix)
-# g.printGraph()
-
-
-
-
-# inp ={"vl":{"0":{"x":260,"y":20},"1":{"x":60,"y":300},"2":{"x":560,"y":280},"3":{"x":100,"y":80},"4":{"x":480,"y":100},"5":{"x":60,"y":200},"6":{"x":380,"y":300},"7":{"x":300,"y":60}},"el":{}}
-
-# g = readJson(inp)
-
-# sol,cost = Christofides(g,"0"); 
-# nx.draw_circular(sol,with_labels = True);     
-# plt.savefig("sol.png")
-# print(sol); 
-# print(cost); 
 
