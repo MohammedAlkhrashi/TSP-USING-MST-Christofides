@@ -11,7 +11,7 @@ REQUIRMENT
 -----------
 Python 3 needs to be installed.
 
-to download required packes use:
+to download required packages use:
 ```
 pip install -r requirements.txt 
 ``` 
@@ -23,10 +23,11 @@ use:
 python TSP_Finder.py 
 ``` 
 
-You will then be prompted to enter your choices
+You will then be prompted to enter your choices either by choosing file or randomly generated example
 
 File Format
 -------------------
 Input = Adjancey Matrix
+
 
 To use a custom file please refer to example.txt as a guide.
