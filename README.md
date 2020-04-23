@@ -21,6 +21,8 @@ use:
 python TSP_Finder.py 
 ``` 
 
+You will then be prompted to enter your choices
+
 File Format
 -------------------
 Input = Adjancey Matrix
