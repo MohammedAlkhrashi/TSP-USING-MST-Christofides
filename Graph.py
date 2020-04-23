@@ -13,20 +13,16 @@ class Graph:
         self.weights = {}
 
     def addEdge(self,v,u,w=-1): 
-
-        if((u,v) in self.edges or (v,u) in self.edges):
-            return; 
-
         vertixV = self.vertices[v]; 
         vertixU = self.vertices[u]; 
         if(w==-1):
-            print("v = ",v," - u = ",u)
             weight = self.dist(vertixV,vertixU)
-            self.edges.add((v,u,weight))
         else:
             weight = w 
-            self.edges.add((v,u,w)) 
 
+        if( (u,v,weight) in self.edges or (v,u,weight) in self.edges):
+            return
+        self.edges.add((v,u,weight))
         self.weights[(u,v)] = weight; 
         self.weights[(v,u)] = weight; 
         
@@ -39,7 +35,7 @@ class Graph:
 
     def dist(self,v,u):
         res = math.sqrt( (v[0]-u[0])**2 + ( v[1]-u[1])**2 ) ## compute euclidean distance, because we have a metric graph. 
-        print("Distance between:",u ," ",v," is:",res )
+       
         return res
     
     def weight(self,v,u) :
@@ -73,23 +69,24 @@ class Graph:
             adj.append(list(i.values()))
         return adj
 
+    def getChar(self,ind): ## get vertrices names in this order -> "A" - "B"- "C" ........
+        return  chr(ord("A")+ind)
 
-def toGraph(adjMatrix):
-    newGraph = Graph(); 
-    n = len(adjMatrix)
+    def toGraph(self,adjMatrix):
+        newGraph = Graph(); 
+        n = len(adjMatrix)
 
-    for i in range(n):
-        newGraph.addVertex(getChar(i))
+        for i in range(n):
+            newGraph.addVertex(self.getChar(i))
 
 
-    for i in range(n): 
-        for j in range(i+1,n):  
-            if(i != j):
-                newGraph.addEdge(getChar(i),getChar(j),adjMatrix[i][j])
-    return newGraph; 
+        for i in range(n): 
+            for j in range(i+1,n):  
+                if(i != j):
+                    newGraph.addEdge(self.getChar(i),self.getChar(j),adjMatrix[i][j])
+        return newGraph; 
 
-def getChar(ind): ## get vertrices names in this order -> "A" - "B"- "C" ........
-    return  chr(ord("A")+ind)
+
 
 # g = Graph()
 # g.addVertex("A",2,2) 
@@ -118,5 +115,6 @@ adjMatrix = [[0 ,5 ,8 ,4 ,5],
             [8 ,7 ,0 ,8 ,6],
             [4 ,4 ,8 ,0 ,8],
             [5 ,5 ,6 ,8 ,0]]
-g = toGraph(adjMatrix)
+tempG = Graph()
+g = tempG.toGraph(adjMatrix)
 g.printGraph()

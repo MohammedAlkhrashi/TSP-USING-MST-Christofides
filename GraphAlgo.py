@@ -276,13 +276,13 @@ def readJson(inp):
 
 
 
-inp ={"vl":{"0":{"x":260,"y":20},"1":{"x":60,"y":300},"2":{"x":560,"y":280},"3":{"x":100,"y":80},"4":{"x":480,"y":100},"5":{"x":60,"y":200},"6":{"x":380,"y":300},"7":{"x":300,"y":60}},"el":{}}
+# inp ={"vl":{"0":{"x":260,"y":20},"1":{"x":60,"y":300},"2":{"x":560,"y":280},"3":{"x":100,"y":80},"4":{"x":480,"y":100},"5":{"x":60,"y":200},"6":{"x":380,"y":300},"7":{"x":300,"y":60}},"el":{}}
 
-g = readJson(inp)
+# g = readJson(inp)
 
-sol,cost = Christofides(g,"0"); 
+# sol,cost = Christofides(g,"0"); 
 # nx.draw_circular(sol,with_labels = True);     
 # plt.savefig("sol.png")
-print(sol); 
-print(cost); 
+# print(sol); 
+# print(cost); 
 
