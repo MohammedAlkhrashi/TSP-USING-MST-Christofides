@@ -8,6 +8,7 @@ A progam that approximate the solution to the TSP problem using Christofides's A
 REQUIRMENT
 -----------
 Python 3 needs to be installed.
+
 to download required packes use:
 ```
 pip install -r requirements.txt 
@@ -23,4 +24,5 @@ python TSP_Finder.py
 File Format
 -------------------
 Input = Adjancey Matrix
+
 To use a custom file please refer to example.txt as a guide.
