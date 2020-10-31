@@ -23,7 +23,7 @@ use:
 python TSP_Finder.py 
 ``` 
 
-You will then be prompted to enter your choices either by choosing file or randomly generated example
+You will then be prompted to enter your choices either by choosing a file or a randomly generated example
 
 File Format
 -------------------
